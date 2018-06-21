@@ -1,11 +1,17 @@
 node {
+    stage "Checkout"
+        checkout scm
+  withMaven(
+        maven: 'maven' )
     stage "Build"
-    stage "Test and Packaging"
-    stage "push To Artifactory"
-    stage "Lunch Ec2 Instance"
-    stage " take Golden AMI "
-    stage " create/Update IGW,routes,VPC,SG,Subnet and ELB"
-    stage " create/update Launch Configuration"
-    stage " luanch and Add instances to ELB"
-    stage " DNS creation/update Label Switching"
+    sh "mvn clean build "
+    
+    stage "test"
+    sh "mvn test"
+    
+    stage "Packaging"
+    sh "mvn clean Package"
+    
+    stage "Deploy to Azure"
+    echo "XXXXXX"    
 }
